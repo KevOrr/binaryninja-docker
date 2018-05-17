@@ -1,0 +1,47 @@
+#!/usr/bin/env python3
+
+import sys
+import os, os.path
+import subprocess
+
+APP_HOME = "/app"
+HOME = os.environ['HOME']
+
+# These will always be mounted, regardless of argv
+DEFAULT_MOUNTS = ['/home/kevin/ctf', '/home/kevin/ctf-training']
+
+def replace_home(mount_from):
+    return mount_from.replace(HOME, APP_HOME, 1) if mount_from.startswith(HOME) else mount_from
+
+def usage():
+    sys.stderr.write('USAGE: {} [-h | --help] [--] [FILE]...'.format(sys.argv[0]))
+    exit(1)
+
+if len(sys.argv) > 1:
+    if sys.argv[1] in ('-h', '--help'):
+        usage()
+    elif sys.argv[1] == '--':
+        sys.argv = sys.argv[:0] + sys.argv[1:]
+
+command = 'docker run --rm'.split()
+
+# Set $DISPLAY and bind mount X11 sockets so binja can talk to our X
+command += ('-e', 'DISPLAY=' + os.environ['DISPLAY'])
+command += ('-v', '/tmp/.X11-unix:/tmp/.X11-unix')
+
+for i in DEFAULT_MOUNTS:
+    if os.path.exists(i):
+        command += ('-v', '{}:{}'.format(i, replace_home(i)))
+
+file_args = []
+
+for i in sys.argv[1:]:
+    mount_from = os.path.realpath(i)
+    mount_to = replace_home(mount_from)
+    command += ("-v", '{}:{}'.format(mount_from, mount_to))
+    file_args.append(mount_to)
+
+command.append('binja_licensed')
+command += file_args
+
+exit(subprocess.call(command))
