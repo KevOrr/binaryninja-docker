@@ -1,13 +1,16 @@
 #!/bin/bash
 
-set -x
+USAGE="\
+%0"' [uid [gid]]
 
-docker-compose down
+Builds the docker image "binja". Defauts to setting `uid` to be the current
+user'"'"'s uid, and `gid` as the primary gid of the user with uid `uid` (be it
+the current user or the one passed in explicitly as `uid`)'
 
-set -e
+set -ex
+
+uid=${1-$(id -u)}
+gid=${2-$(id -g $uid)}
+
 docker pull ubuntu:rolling
-docker-compose build
-docker-compose up
-docker commit binja_unlicensed binja_licensed
-docker rm binja_unlicensed
-docker image prune
+docker build . --build-arg uid=$uid --build-arg gid=$gid -t binja

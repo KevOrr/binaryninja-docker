@@ -41,7 +41,7 @@ for i in sys.argv[1:]:
     command += ("-v", '{}:{}'.format(mount_from, mount_to))
     file_args.append(mount_to)
 
-command.append('binja_licensed')
+command.append('binja')
 command += file_args
 
 exit(subprocess.call(command))

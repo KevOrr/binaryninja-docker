@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -ex
+shopt -s nullglob extglob
+
+binja=(/tmp/build/BinaryNinja@(|-personal|*).zip)
+if [ ${#binja[@]} -eq 0 ]; then
+    echo 'Source directory must include one of: BinaryNinja.zip BinaryNinja-personal.zip' >&2
+    exit 1
+fi
+
+license=(/tmp/build/license@(.txt|.dat||*))
+if [ ${#binja[@]} -eq 0 ]; then
+    echo 'Source directory must include on of: license.txt license.dat license' >&2
+    exit 1
+fi
+
+unzip "${binja[0]}" -d ~app
+install -Dm644 "${license[0]}" ~app/.binaryninja/license.dat
+chown -R app:app ~app
