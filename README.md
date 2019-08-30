@@ -12,7 +12,7 @@ Based on `ubuntu:rolling`.
 ### Installation
 
 1. Clone this repo somewhere
-2. Place your `BinaryNinja-personal.zip` and `license.txt` inside this directory
+2. Place your `BinaryNinja.zip` or `BinaryNinja-personal.zip`, as well as `license.txt` inside this directory
 3. Run `./update [uid [gid]]` (see `./update --help`). This will build a new container, which may take a while
 
 That's it! Now you should have a docker image called `binja`. Now you
