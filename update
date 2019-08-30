@@ -1,11 +1,15 @@
 #!/bin/bash
 
 USAGE="\
-%0"' [uid [gid]]
+$0"' [uid [gid]]
 
 Builds the docker image "binja". Defauts to setting `uid` to be the current
 user'"'"'s uid, and `gid` as the primary gid of the user with uid `uid` (be it
 the current user or the one passed in explicitly as `uid`)'
+
+case "$1" in
+    --help|-h) echo "$USAGE" >&2; exit ;;
+esac
 
 set -ex
 
