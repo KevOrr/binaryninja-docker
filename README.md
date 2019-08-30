@@ -12,15 +12,11 @@ Based on `ubuntu:rolling`.
 ### Installation
 
 1. Clone this repo somewhere
-2. `cd` into this directory
-3. Place your `BinaryNinja-personal.zip` and `license.txt` here
-4. Edit `docker-compose.yml` so that `uid` and `gid` match your user
-5. Run `./update`. This will build a new container, which may take a while
-6. Open `license.txt` when prompted
-7. Close Binary Ninja
+2. Place your `BinaryNinja-personal.zip` and `license.txt` inside this directory
+3. Run `./update [uid [gid]]` (see `./update --help`). This will build a new container, which may take a while
 
-That's it! Now you should have a docker image called `binja_licensed`. Now you
-can run this container as `docker run --rm -e DISPLAY="$DISPLAY" -v /tmp/.X11-unix:/tmp/.X11-unix binja_licensed`
+That's it! Now you should have a docker image called `binja`. Now you
+can run this container as `docker run --rm -e DISPLAY="$DISPLAY" -v /tmp/.X11-unix:/tmp/.X11-unix binja`
 
 ### Running
 
@@ -30,4 +26,4 @@ bind mount any files we want to open into the docker container. Included in
 
     USAGE: ./binja [-h | --help] [--] [FILE]...
 
-Also included is `binaryninja.desktop`.
+Also included is `binaryninja.desktop`, which can be placed in `~/.local/share/applications`.
