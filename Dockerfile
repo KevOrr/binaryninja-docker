@@ -22,8 +22,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     libxkbcommon-x11-0 \
   # Necessary to unzip Binary Ninja
     unzip \
-  # Needed for `binja` script
-    python3-minimal \
   && \
   rm -rf /var/lib/apt/lists/* && \
   rm -rf /tmp/*
