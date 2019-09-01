@@ -18,3 +18,9 @@ gid=${2-$(id -g $uid)}
 
 docker pull ubuntu:rolling
 docker build . --build-arg uid=$uid --build-arg gid=$gid -t binja
+
+f="$(mktemp)"
+docker run --rm --entrypoint /bin/cat binja /app/binaryninja/docs/img/logo.png >"$f" || exit
+install -Dm644 "$f" ~/.local/share/icons/binaryninja.png
+install -Dm644 binaryninja.desktop ~/.local/share/applications/binaryninja.desktop
+install -Dm755 binja ~/.local/bin
